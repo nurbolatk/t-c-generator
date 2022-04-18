@@ -13,8 +13,6 @@ export const ResultRoute = () => {
   const params = useParams<{ id: string }>();
   const id = params.id ?? "";
 
-  console.log(id);
-
   const { data, isLoading } = useQuery(
     ["terms", id],
     async () =>

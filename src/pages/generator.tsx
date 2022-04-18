@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import termGenImg from "assets/term-square.png";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -11,6 +11,7 @@ import { useLoading } from "App";
 export const GeneratorRoute = () => {
   const { register, handleSubmit } = useForm<TermsFormValues>();
   const navigate = useNavigate();
+  const { toggleLoading } = useLoading();
 
   const mutation = useMutation(
     (form: TermsFormValues) => {
@@ -20,18 +21,18 @@ export const GeneratorRoute = () => {
       );
     },
     {
+      onMutate: () => {
+        toggleLoading(true);
+      },
       onSuccess: ({ data: { id } }) => {
         saveID(id);
         navigate(`/result/${id}`);
       },
+      onSettled: () => {
+        toggleLoading(false);
+      },
     }
   );
-
-  const { toggleLoading } = useLoading();
-
-  useEffect(() => {
-    toggleLoading(mutation.isLoading);
-  }, [mutation.isLoading, toggleLoading]);
 
   const sendForm = async (form: TermsFormValues) => {
     mutation.mutate(form);

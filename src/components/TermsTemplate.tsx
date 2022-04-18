@@ -4,7 +4,7 @@ export function generateJSX(data: UserData): JSX.Element {
   return (
     <div>
       <h3>Terms and Conditions</h3>
-      <p className="text-slate-600 mt-2">
+      <p>
         These terms and conditions outline the rules and regulations for the use
         of <strong>{data.name}</strong>'s Website, located at{" "}
         <a href={data.url}>{data.url}</a>.
