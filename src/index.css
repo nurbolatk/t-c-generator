@@ -43,10 +43,10 @@
 
   .blob-1 {
     position: absolute;
-    width: 50%;
+    width: 60%;
     height: 80vh;
     left: 0;
-    top: 0px;
+    top: 70px;
     z-index: -1;
 
     background: linear-gradient(
@@ -63,7 +63,7 @@
     width: 50%;
     height: 80vh;
     right: 0;
-    top: 0;
+    top: 75px;
     z-index: -1;
 
     background: linear-gradient(
