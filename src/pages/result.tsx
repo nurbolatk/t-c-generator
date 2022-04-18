@@ -6,12 +6,13 @@ import { UserData } from "types";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import axios from "axios";
+import { getID } from "helpers/terms";
 
 let timeOutId: number | undefined;
 
 export const ResultRoute = () => {
   const params = useParams<{ id: string }>();
-  const id = params.id ?? "";
+  const id = params.id ?? getID() ?? "";
 
   const { data, isLoading } = useQuery(
     ["terms", id],

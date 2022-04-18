@@ -54,6 +54,7 @@ function App() {
                   <Route path="/">
                     <Route index element={<HomeRoute />} />
                     <Route path="generator" element={<GeneratorRoute />} />
+                    <Route path="result" element={<ResultRoute />} />
                     <Route path="result/:id" element={<ResultRoute />} />
                     <Route path="bg-remover" element={<BgRemover />} />
                   </Route>
