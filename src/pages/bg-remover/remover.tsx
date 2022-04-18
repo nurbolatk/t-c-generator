@@ -5,6 +5,7 @@ import termGenImg from "assets/term-square.png";
 import { saveAs } from 'file-saver'
 import axios from "axios";
 import {LoadingContext} from "../../App";
+import bgRemImg from "../../assets/bg-rem.png";
 
 const bgStyle = {
     backgroundImage: 'url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUAQMAAAC3R49OAAAABlBMVEX////09PQtDxrOAAAAE0lEQVQI12P4f4CBKMxg/4EYDAAFkR1NiYvv7QAAAABJRU5ErkJggg==)',
@@ -61,7 +62,7 @@ export const BgRemover = () => {
             <div className="card pb-16">
                 {!!responseImage ? (
                     <>
-                        <div className={'flex items-center justify-center'} style={bgStyle}>
+                        <div className={'flex justify-center'} style={bgStyle}>
                             <img src={responseImage} height="200" alt="Image preview..."/>
                         </div>
                         <div className={'flex justify-end mt-12'} >
@@ -85,7 +86,7 @@ export const BgRemover = () => {
                     <>
                         <header className="flex items-center gap-10">
                             <div className="shrink">
-                                <img src={termGenImg} alt="Terms and Conditions Generator"/>
+                                <img src={bgRemImg} alt="Terms and Conditions Generator"/>
                             </div>
                             <h2 className="text-black font-semibold text-4xl shrink-[2]">
                                 Instantly remove the background from your photos, free
