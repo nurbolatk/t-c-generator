@@ -2,24 +2,16 @@ import React from "react";
 import termGenImg from "assets/term-square.png";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-
-type FormValues = {
-  name: string;
-  website: string;
-  address: string;
-  city: string;
-  zip: string;
-  state: string;
-  country: string;
-  email: string;
-};
+import { TermsFormValues } from "types";
+import { saveData } from "helpers/terms";
 
 export const GeneratorRoute = () => {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const { register, handleSubmit } = useForm<TermsFormValues>();
   const navigate = useNavigate();
 
-  const sendForm = (form: FormValues) => {
+  const sendForm = async (form: TermsFormValues) => {
     console.log(form);
+    await saveData(form);
     navigate("/result");
   };
 
