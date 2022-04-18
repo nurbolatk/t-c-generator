@@ -38,7 +38,7 @@ export const BgRemover = () => {
       responseType: "blob",
       encoding: null,
       headers: {
-        "X-Api-Key": "LpjPWzijps8YmVp2BmH4CiqL",
+        "X-Api-Key": "DrY2ZAHsC5RaUDe4DaTVdwKE",
       },
     })
       .then((res) => {
