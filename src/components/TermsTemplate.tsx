@@ -1,19 +1,19 @@
-import { TermsFormValues } from "types";
+import { UserData } from "types";
 
-export function generateJSX(data: TermsFormValues): JSX.Element {
+export function generateJSX(data: UserData): JSX.Element {
   return (
     <div>
       <h3>Terms and Conditions</h3>
       <p className="text-slate-600 mt-2">
         These terms and conditions outline the rules and regulations for the use
         of <strong>{data.name}</strong>'s Website, located at{" "}
-        <a href={data.website}>{data.website}</a>.
+        <a href={data.url}>{data.url}</a>.
       </p>
       <p>
         By accessing this website we assume you accept these terms and
-        conditions. Do not continue to use{" "}
-        <a href={data.website}>{data.website}</a> if you do not agree to take
-        all of the terms and conditions stated on this page.
+        conditions. Do not continue to use <a href={data.url}>{data.url}</a> if
+        you do not agree to take all of the terms and conditions stated on this
+        page.
       </p>
       <p>
         The following terminology applies to these Terms and Conditions, Privacy
@@ -34,7 +34,7 @@ export function generateJSX(data: TermsFormValues): JSX.Element {
       <h4>Cookies</h4>
       <p>
         We employ the use of cookies. By accessing{" "}
-        <a href={data.website}>{data.website}</a>, you agreed to use cookies in
+        <a href={data.url}>{data.url}</a>, you agreed to use cookies in
         agreement with the <strong>{data.name}</strong>'s Privacy Policy.
       </p>
       <p>
@@ -48,18 +48,17 @@ export function generateJSX(data: TermsFormValues): JSX.Element {
       <p>
         Unless otherwise stated, <strong>{data.name}</strong> and/or its
         licensors own the intellectual property rights for all material on{" "}
-        <a href={data.website}>{data.website}</a>. All intellectual property
-        rights are reserved. You may access this from{" "}
-        <a href={data.website}>{data.website}</a> for your own personal use
-        subjected to restrictions set in these terms and conditions.
+        <a href={data.url}>{data.url}</a>. All intellectual property rights are
+        reserved. You may access this from <a href={data.url}>{data.url}</a> for
+        your own personal use subjected to restrictions set in these terms and
+        conditions.
       </p>
       <h4>You must not:</h4>
       <p>
-        Republish material from <a href={data.website}>{data.website}</a> Sell,
-        rent or sub-license material from{" "}
-        <a href={data.website}>{data.website}</a> Reproduce, duplicate or copy
-        material from <a href={data.website}>{data.website}</a> Redistribute
-        content from <a href={data.website}>{data.website}</a>
+        Republish material from <a href={data.url}>{data.url}</a> Sell, rent or
+        sub-license material from <a href={data.url}>{data.url}</a> Reproduce,
+        duplicate or copy material from <a href={data.url}>{data.url}</a>{" "}
+        Redistribute content from <a href={data.url}>{data.url}</a>
       </p>
       <p>
         Parts of this website offer an opportunity for users to post and

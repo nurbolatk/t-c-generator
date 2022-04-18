@@ -1,31 +1,32 @@
-import React, {createContext, useState} from "react";
+import React, { createContext, useState } from "react";
 import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
 import { ReactComponent as Logo } from "assets/logo.svg";
 import { HomeRoute } from "pages";
 import { GeneratorRoute } from "pages/generator";
 import { ResultRoute } from "pages/result";
-import {BgRemover} from "./pages/bg-remover/remover";
+import { BgRemover } from "./pages/bg-remover/remover";
 // @ts-ignore
-import LoadingOverlay from 'react-loading-overlay';
+import LoadingOverlay from "react-loading-overlay";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
 
 export const LoadingContext = createContext(null);
 
 function App() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const toggleLoading = (value: boolean) => {
-    setLoading(value)
-  }
+    setLoading(value);
+  };
 
   return (
+    <QueryClientProvider client={queryClient}>
       <LoadingContext.Provider
-          // @ts-ignore
-          value={{ loading, toggleLoading }}
+        // @ts-ignore
+        value={{ loading, toggleLoading }}
       >
-        <LoadingOverlay
-            active={loading}
-            spinner
-        >
+        <LoadingOverlay active={loading} spinner>
           <BrowserRouter>
             <div className="min-h-screen flex flex-col">
               <header className="p-3 md:p-5 flex items-center gap-4">
@@ -43,7 +44,7 @@ function App() {
                     <Route index element={<HomeRoute />} />
                     <Route path="generator" element={<GeneratorRoute />} />
                     <Route path="result" element={<ResultRoute />} />
-                    <Route path="bg-remover" element={<BgRemover/>}/>
+                    <Route path="bg-remover" element={<BgRemover />} />
                   </Route>
                 </Routes>
               </main>
@@ -61,9 +62,8 @@ function App() {
             </div>
           </BrowserRouter>
         </LoadingOverlay>
-
       </LoadingContext.Provider>
-
+    </QueryClientProvider>
   );
 }
 

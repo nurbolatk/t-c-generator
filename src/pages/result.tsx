@@ -2,22 +2,31 @@ import React, { useEffect, useState } from "react";
 import * as ReactDOMServer from "react-dom/server";
 import termGenImg from "assets/term-square.png";
 import { generateJSX } from "components/TermsTemplate";
-import { TermsFormValues } from "types";
-import { getData } from "helpers/terms";
-import { Link } from "react-router-dom";
+import { UserData } from "types";
+import { Link, useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import axios from "axios";
 
 let timeOutId: number | undefined;
 
 export const ResultRoute = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [data, setData] = useState<TermsFormValues | null>(null);
+  const params = useParams<{ id: string }>();
+  const id = params.id ?? "";
 
-  useEffect(() => {
-    getData().then((newData) => {
-      setData(newData);
-      setIsLoading(false);
-    });
-  }, []);
+  console.log(id);
+
+  const { data, isLoading } = useQuery(
+    ["terms", id],
+    async () =>
+      await (
+        await axios.get<UserData>(
+          `https://b5ca99f98ce3.ngrok.io/api/v1/shopify/terms/${id}`
+        )
+      ).data,
+    {
+      enabled: !!id,
+    }
+  );
 
   const [show, setShow] = useState<boolean>(false);
 

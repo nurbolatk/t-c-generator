@@ -3,16 +3,30 @@ import termGenImg from "assets/term-square.png";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
 import { TermsFormValues } from "types";
-import { saveData } from "helpers/terms";
+import { saveID } from "helpers/terms";
+import { useMutation } from "react-query";
+import axios from "axios";
 
 export const GeneratorRoute = () => {
   const { register, handleSubmit } = useForm<TermsFormValues>();
   const navigate = useNavigate();
+  const mutation = useMutation(
+    (form: TermsFormValues) => {
+      return axios.post<{ id: number | string }>(
+        "https://b5ca99f98ce3.ngrok.io/api/v1/shopify/terms/",
+        form
+      );
+    },
+    {
+      onSuccess: ({ data: { id } }) => {
+        saveID(id);
+        navigate(`/result/${id}`);
+      },
+    }
+  );
 
   const sendForm = async (form: TermsFormValues) => {
-    console.log(form);
-    await saveData(form);
-    navigate("/result");
+    mutation.mutate(form);
   };
 
   return (
@@ -64,7 +78,7 @@ export const GeneratorRoute = () => {
                 className="form-input"
                 type="text"
                 placeholder="Enter your company website"
-                {...register("website")}
+                {...register("url")}
               />
             </div>
           </div>
