@@ -4,6 +4,7 @@ import { ReactComponent as Logo } from "assets/logo.svg";
 import { HomeRoute } from "pages";
 import { GeneratorRoute } from "pages/generator";
 import { ResultRoute } from "pages/result";
+import SloganGenerator from "pages/slogan-generator/SloganGenerator";
 import {BgRemover} from "./pages/bg-remover/remover";
 // @ts-ignore
 import LoadingOverlay from 'react-loading-overlay';
@@ -44,6 +45,7 @@ function App() {
                     <Route path="generator" element={<GeneratorRoute />} />
                     <Route path="result" element={<ResultRoute />} />
                     <Route path="bg-remover" element={<BgRemover/>}/>
+                    <Route path="slogan-generator" element={<SloganGenerator />} />
                   </Route>
                 </Routes>
               </main>

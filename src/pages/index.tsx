@@ -32,7 +32,7 @@ export const HomeRoute = () => {
 
       <section className="my-72 flex flex-wrap gap-5">
         <div className="space-y-5 flex-1">
-          <Link to="#" className="card group w-full">
+          <Link to="/slogan-generator" className="card group w-full">
             <img src={SloganGenImg} alt="Slogan Generator" />
             <h4 className="group-hover:underline text-orange-400 text-xl font-semibold mt-6">
               Slogan Generator
