@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from "react";
 
 // @ts-ignore
@@ -48,11 +49,11 @@ export const BgRemover = () => {
         alert("error, reload");
         toggleLoading(false);
       });
-  }, [selectedImage, toggleLoading]);
+  }, [selectedImage]);
 
   useEffect(() => {
     toggleLoading(false);
-  }, [responseImage, toggleLoading]);
+  }, [responseImage]);
 
   return (
     <div className="card pb-16">
