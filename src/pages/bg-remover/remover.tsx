@@ -61,7 +61,7 @@ export const BgRemover = () => {
             <div className="card pb-16">
                 {!!responseImage ? (
                     <>
-                        <div style={bgStyle}>
+                        <div className={'flex items-center justify-center'} style={bgStyle}>
                             <img src={responseImage} height="200" alt="Image preview..."/>
                         </div>
                         <div className={'flex justify-end mt-12'} >
