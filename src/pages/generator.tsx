@@ -1,6 +1,7 @@
 import React from "react";
 import termGenImg from "assets/term-square.png";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 
 type FormValues = {
   name: string;
@@ -15,22 +16,20 @@ type FormValues = {
 
 export const GeneratorRoute = () => {
   const { register, handleSubmit } = useForm<FormValues>();
+  const navigate = useNavigate();
 
   const sendForm = (form: FormValues) => {
     console.log(form);
+    navigate("/result");
   };
 
   return (
     <div className="card pb-16">
       <header className="flex items-center gap-10">
-        <div>
-          <img
-            src={termGenImg}
-            alt="Terms and Conditions Generator"
-            className=""
-          />
+        <div className="shrink">
+          <img src={termGenImg} alt="Terms and Conditions Generator" />
         </div>
-        <h2 className="text-black font-semibold text-4xl">
+        <h2 className="text-black font-semibold text-4xl shrink-[2]">
           Generate Terms and Conditions for your store for free
         </h2>
       </header>
