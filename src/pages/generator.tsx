@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import termGenImg from "assets/term-square.png";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
@@ -6,10 +6,12 @@ import { TermsFormValues } from "types";
 import { saveID } from "helpers/terms";
 import { useMutation } from "react-query";
 import axios from "axios";
+import { useLoading } from "App";
 
 export const GeneratorRoute = () => {
   const { register, handleSubmit } = useForm<TermsFormValues>();
   const navigate = useNavigate();
+
   const mutation = useMutation(
     (form: TermsFormValues) => {
       return axios.post<{ id: number | string }>(
@@ -24,6 +26,12 @@ export const GeneratorRoute = () => {
       },
     }
   );
+
+  const { toggleLoading } = useLoading();
+
+  useEffect(() => {
+    toggleLoading(mutation.isLoading);
+  }, [mutation.isLoading, toggleLoading]);
 
   const sendForm = async (form: TermsFormValues) => {
     mutation.mutate(form);

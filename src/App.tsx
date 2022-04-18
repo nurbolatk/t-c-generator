@@ -1,4 +1,4 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
 import { ReactComponent as Logo } from "assets/logo.svg";
 import { HomeRoute } from "pages";
@@ -11,7 +11,21 @@ import { QueryClient, QueryClientProvider } from "react-query";
 
 const queryClient = new QueryClient();
 
-export const LoadingContext = createContext(null);
+export const LoadingContext = createContext<
+  | {
+      loading: boolean;
+      toggleLoading: (value: boolean) => void;
+    }
+  | undefined
+>(undefined);
+
+export function useLoading() {
+  const value = useContext(LoadingContext);
+  if (!value) {
+    throw new Error("useLoading must be used inside LoadingContext");
+  }
+  return value;
+}
 
 function App() {
   const [loading, setLoading] = useState(false);
@@ -22,10 +36,7 @@ function App() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <LoadingContext.Provider
-        // @ts-ignore
-        value={{ loading, toggleLoading }}
-      >
+      <LoadingContext.Provider value={{ loading, toggleLoading }}>
         <LoadingOverlay active={loading} spinner>
           <BrowserRouter>
             <div className="min-h-screen flex flex-col">
@@ -43,7 +54,7 @@ function App() {
                   <Route path="/">
                     <Route index element={<HomeRoute />} />
                     <Route path="generator" element={<GeneratorRoute />} />
-                    <Route path="result" element={<ResultRoute />} />
+                    <Route path="result/:id" element={<ResultRoute />} />
                     <Route path="bg-remover" element={<BgRemover />} />
                   </Route>
                 </Routes>
