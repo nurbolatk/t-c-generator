@@ -99,7 +99,7 @@ export const HomeRoute = () => {
               Generate T&C for your store with our free generator.
             </p>
           </Link>
-          <Link to="#" className="card group w-full">
+          <Link to="/bg-remover" className="card group w-full">
             <img
               src={bgRemImg}
               alt="Background Remover"
