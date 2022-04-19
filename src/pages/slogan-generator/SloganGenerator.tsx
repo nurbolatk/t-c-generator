@@ -1,23 +1,13 @@
 import { FC, FormEvent, useState } from "react";
-import axios from "axios";
 import styled from "styled-components";
 
+import { getSlogans } from "./utils/apiService";
 import LoadingSpinner from "./LoadingSpinner";
 
 import sloganPic from '../../assets/slogan-gen.png';
 
-const API_URL = 'http://5c91-85-117-98-181.ngrok.io';
-
-const getSlogans = async (word: string) => {
-    return await axios.get(API_URL, {
-        headers: {
-            'Access-Control-Allow-Origin': '*',
-            'Content-Type': 'application/json',
-        },
-        params: {
-            query: word,
-        }
-    })
+interface ButtonProps {
+    buttonDisabled: boolean;
 }
 
 const SloganGenerator: FC = () => {
@@ -40,7 +30,7 @@ const SloganGenerator: FC = () => {
         let value = e.currentTarget.value;
         setWord(value);
 
-        if (value.length > 3) setButtonDisabled(false);
+        if (value.length >= 3) setButtonDisabled(false);
         else setButtonDisabled(true);
     }
 
@@ -66,7 +56,7 @@ const SloganGenerator: FC = () => {
             </Column>
         </Row>
         <Row>
-            <GenerateButton onClick={handleClick}>Generate slogans</GenerateButton>
+            <GenerateButton buttonDisabled={buttonDisabled} onClick={handleClick}>Generate slogans</GenerateButton>
         </Row>
         <Row>
             <Line />
@@ -180,11 +170,12 @@ const Input = styled.input`
 
 `
 
-const GenerateButton = styled.button`
+const GenerateButton = styled.button<ButtonProps>`
     width: 201px;
     height: 56px;
-    background: #2979FF;
+    background: ${props => props.buttonDisabled ? '#749de2' : '#2979FF'};
     border-radius: 10px;
+    pointer-events: ${props => props.buttonDisabled ? 'none' : 'all'};
 
     /* Inside auto layout */
 
