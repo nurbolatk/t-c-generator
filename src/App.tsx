@@ -1,32 +1,45 @@
-import React, {createContext, useState} from "react";
+import React, { createContext, useContext, useState } from "react";
 import { BrowserRouter, Link, Routes, Route } from "react-router-dom";
 import { ReactComponent as Logo } from "assets/logo.svg";
 import { HomeRoute } from "pages";
 import { GeneratorRoute } from "pages/generator";
 import { ResultRoute } from "pages/result";
 import SloganGenerator from "pages/slogan-generator/SloganGenerator";
-import {BgRemover} from "./pages/bg-remover/remover";
-// @ts-ignore
-import LoadingOverlay from 'react-loading-overlay';
+import { BgRemover } from "./pages/bg-remover/remover";
 
-export const LoadingContext = createContext(null);
+// @ts-ignore
+import LoadingOverlay from "react-loading-overlay";
+import { QueryClient, QueryClientProvider } from "react-query";
+
+const queryClient = new QueryClient();
+
+export const LoadingContext = createContext<
+  | {
+      loading: boolean;
+      toggleLoading: (value: boolean) => void;
+    }
+  | undefined
+>(undefined);
+
+export function useLoading() {
+  const value = useContext(LoadingContext);
+  if (!value) {
+    throw new Error("useLoading must be used inside LoadingContext");
+  }
+  return value;
+}
 
 function App() {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   const toggleLoading = (value: boolean) => {
-    setLoading(value)
-  }
+    setLoading(value);
+  };
 
   return (
-      <LoadingContext.Provider
-          // @ts-ignore
-          value={{ loading, toggleLoading }}
-      >
-        <LoadingOverlay
-            active={loading}
-            spinner
-        >
+    <QueryClientProvider client={queryClient}>
+      <LoadingContext.Provider value={{ loading, toggleLoading }}>
+        <LoadingOverlay active={loading} spinner>
           <BrowserRouter>
             <div className="min-h-screen flex flex-col">
               <header className="p-3 md:p-5 flex items-center gap-4">
@@ -46,6 +59,8 @@ function App() {
                     <Route path="result" element={<ResultRoute />} />
                     <Route path="bg-remover" element={<BgRemover/>}/>
                     <Route path="slogan-generator" element={<SloganGenerator />} />
+                    <Route path="result/:id" element={<ResultRoute />} />
+                    <Route path="bg-remover" element={<BgRemover />} />
                   </Route>
                 </Routes>
               </main>
@@ -63,9 +78,8 @@ function App() {
             </div>
           </BrowserRouter>
         </LoadingOverlay>
-
       </LoadingContext.Provider>
-
+    </QueryClientProvider>
   );
 }
 

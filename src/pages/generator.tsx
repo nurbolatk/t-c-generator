@@ -2,25 +2,40 @@ import React from "react";
 import termGenImg from "assets/term-square.png";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router";
-
-type FormValues = {
-  name: string;
-  website: string;
-  address: string;
-  city: string;
-  zip: string;
-  state: string;
-  country: string;
-  email: string;
-};
+import { TermsFormValues } from "types";
+import { saveID } from "helpers/terms";
+import { useMutation } from "react-query";
+import axios from "axios";
+import { useLoading } from "App";
 
 export const GeneratorRoute = () => {
-  const { register, handleSubmit } = useForm<FormValues>();
+  const { register, handleSubmit } = useForm<TermsFormValues>();
   const navigate = useNavigate();
+  const { toggleLoading } = useLoading();
 
-  const sendForm = (form: FormValues) => {
-    console.log(form);
-    navigate("/result");
+  const mutation = useMutation(
+    (form: TermsFormValues) => {
+      return axios.post<{ id: number | string }>(
+        "https://b5ca99f98ce3.ngrok.io/api/v1/shopify/terms/",
+        form
+      );
+    },
+    {
+      onMutate: () => {
+        toggleLoading(true);
+      },
+      onSuccess: ({ data: { id } }) => {
+        saveID(id);
+        navigate(`/result/${id}`);
+      },
+      onSettled: () => {
+        toggleLoading(false);
+      },
+    }
+  );
+
+  const sendForm = async (form: TermsFormValues) => {
+    mutation.mutate(form);
   };
 
   return (
@@ -72,7 +87,7 @@ export const GeneratorRoute = () => {
                 className="form-input"
                 type="text"
                 placeholder="Enter your company website"
-                {...register("website")}
+                {...register("url")}
               />
             </div>
           </div>

@@ -1,14 +1,42 @@
 import React, { useEffect, useState } from "react";
+import * as ReactDOMServer from "react-dom/server";
 import termGenImg from "assets/term-square.png";
+import { generateJSX } from "components/TermsTemplate";
+import { UserData } from "types";
+import { Link, useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import axios from "axios";
+import { getID } from "helpers/terms";
 
 let timeOutId: number | undefined;
 
 export const ResultRoute = () => {
+  const params = useParams<{ id: string }>();
+  const id = params.id ?? getID() ?? "";
+
+  const { data, isLoading } = useQuery(
+    ["terms", id],
+    async () =>
+      await (
+        await axios.get<UserData>(
+          `https://b5ca99f98ce3.ngrok.io/api/v1/shopify/terms/${id}`
+        )
+      ).data,
+    {
+      enabled: !!id,
+    }
+  );
+
   const [show, setShow] = useState<boolean>(false);
 
   const copyToClipboard = () => {
-    navigator.clipboard.writeText("My terms!");
-    showToast();
+    if (data) {
+      const text = ReactDOMServer.renderToStaticMarkup(generateJSX(data));
+      console.log(text);
+
+      navigator.clipboard.writeText(text);
+      showToast();
+    }
   };
 
   const showToast = () => {
@@ -46,13 +74,42 @@ export const ResultRoute = () => {
           </div>
         )}
       </div>
-      <div>
-        <h3>Terms and Conditions</h3>
-        <p className="text-slate-600 mt-2">
-          Fill in the form below, and the tool will generate a free terms and
-          conditions page for your website.
-        </p>
-      </div>
+      {isLoading && (
+        <div className="animate-pulse space-y-4">
+          <div className="flex-1 space-y-6 py-1">
+            <div className="h-2 w-1/3 bg-slate-300 rounded"></div>
+            <div className="space-y-3">
+              <div className="grid grid-cols-3 gap-4">
+                <div className="h-2 bg-slate-300 rounded col-span-2"></div>
+                <div className="h-2 bg-slate-300 rounded col-span-1"></div>
+              </div>
+              <div className="h-2 bg-slate-300 rounded"></div>
+            </div>
+          </div>
+          <div className="flex-1 space-y-3 py-1">
+            <div className="h-2 bg-slate-300 rounded"></div>
+            <div className="space-y-3">
+              <div className="grid grid-cols-3 gap-4">
+                <div className="h-2 bg-slate-300 rounded col-span-2"></div>
+                <div className="h-2 bg-slate-300 rounded col-span-1"></div>
+              </div>
+              <div className="h-2 bg-slate-300 rounded"></div>
+            </div>
+          </div>
+        </div>
+      )}
+      {!isLoading && !data && (
+        <div>
+          <h4>You didn't submit your data</h4>
+          <p className="mt-2">
+            In order to get your Terms & Conditions, please, submit your data in{" "}
+            <Link className="text-primary-400" to="/generator">
+              this page
+            </Link>
+          </p>
+        </div>
+      )}
+      {data && <div className="prose max-w-full">{generateJSX(data)}</div>}
     </div>
   );
 };
